@@ -147,6 +147,9 @@
 
                                 @foreach ($olga as $o)
 
+                                @if ($o->Jumlah_barang <= 0)
+                                    @continue
+                                @endif
                                     <tr class="border-b dark:border-gray-700">
                                         <td class="px-4 py-3">
                                             @if($o['Gambar_barang'])

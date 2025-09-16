@@ -159,7 +159,10 @@
                                                 @elseif ($o['Status_barang'] == 0)
                                                     <span
                                                         class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Approved</span>
-                                                @endifx
+                                                @elseif ($o['Status_barang'] == 2)
+                                                    <span
+                                                        class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Declined</span>
+                                                @endif
                                             </td>
 
 
@@ -179,7 +182,7 @@
                                                     </form>
 
 
-                                                    <form action="{{ route('form.destroy', $o->id) }}" method="POST"
+                                                    <form action="{{ route('form.decline', $o->id) }}" method="POST"
                                                         onsubmit="return confirm('Yakin mau hapus produk ini?')"
                                                         class="flex-1">
                                                         @csrf

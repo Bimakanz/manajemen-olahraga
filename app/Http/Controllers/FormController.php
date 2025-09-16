@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Form;
+use App\Models\db_alatolahraga;
 
 
 class FormController extends Controller
@@ -22,7 +23,8 @@ class FormController extends Controller
      */
     public function create()
     {
-        return view ('form.create');
+        $olga = db_alatolahraga::all();
+        return view ('form.create', compact('olga'));
     }
 
     /**
@@ -35,8 +37,10 @@ class FormController extends Controller
         'Tanggal_pinjam'  => 'required|date',
         'Tanggal_balikin' => 'required|date|after_or_equal:Tanggal_pinjam',
         'Jumlah_barang' => 'required|integer|min:1',
-        'Nama_peminjam'     => 'required|string|max:255',
+        'Nama_peminjam' => 'required|string|max:255',
     ]);
+    $olga = db_alatolahraga::where('Nama_barang', $request->Nama_barang)->first();
+    $olga->decrement('Jumlah_barang', $request->Jumlah_barang);
 
     Form::create($validated);
 
@@ -77,13 +81,21 @@ class FormController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+   public function decline($id)
     {
-        // Gantilah dengan model kamu, misalnya Form
         $form = Form::findOrFail($id);
-        $form->delete();
 
-    return redirect()->route('form.index')->with('success', 'Data berhasil dihapus.');
+        // Update status peminjaman
+        $form->Status_barang = 2;
+        $form->save();
+
+        // Kembalikan stok alat
+         $olga = db_alatolahraga::where('Nama_barang', $form->Nama_barang)->first();
+        if ($olga) {
+            $olga->increment('Jumlah_barang', $form->Jumlah_barang);
+        }
+
+        return back()->with('success', 'Peminjaman ditolak dan stok dikembalikan!');
     }
 
 }

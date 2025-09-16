@@ -13,5 +13,6 @@ class Form extends Model
         'Tanggal_balikin',
         'Jumlah_barang',
         'Status_barang',
+        'alatolahraga_id',
     ];
 }

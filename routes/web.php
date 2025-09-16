@@ -11,7 +11,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::delete('/form/{id}', [FormController::class, 'destroy'])->name('form.destroy');
+Route::delete('/form/{id}', [FormController::class, 'decline'])->name('form.decline');
 Route::put('/form/{id}', [FormController::class, 'approve'])->name('form.approve');
 
 
@@ -24,6 +24,8 @@ Route::get('/dashboard', [OlgaController::class, 'index'])
     ->name('dashboard');
 
 Route::resource('olga', OlgaController::class)->middleware(['auth', 'verified']);
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

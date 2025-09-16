@@ -27,19 +27,36 @@
                             <h2 class="text-lg text-white font-semibold mb-2">
                                 {{ $o->Nama_barang }}
                             </h2>
-                            <p class="text-sm text-gray-300 mb-1">Jumlah : {{ $o->Jumlah_barang }}</p>
+                            <p class="text-sm text-gray-300 mb-1">
+                            @if ($o->Jumlah_barang <= 0)
+                                <span class="text-red-500 font-bold">Stok Habis</span>
+                            @else
+                                <span class="text-green-500 font-bold">Stok Tersedia</span>
+                            @endif
+                            <br>
+                            Jumlah : {{ $o->Jumlah_barang }}</p>
                             <p class="text-sm text-white {{ $o->Status_barang }}">
                                 Status : {{ $o->Status_barang }}
                             </p>
                         </div>
 
                         {{-- Tombol Pinjam --}}
-                        <div class="mt-4">
-                            <a href="{{ route('form.create', $o->id) }}"
-                               class="block w-full text-center bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-                                📌 Pinjam Barang
-                            </a>
-                        </div>
+
+                        @if ($o->Jumlah_barang <= 0)
+                            <div class="mt-4">
+                                <button disabled
+                                   class="block w-full text-center bg-gray-500 text-white py-2 px-4 rounded-lg cursor-not-allowed">
+                                    📌 Stok Habis
+                                </button>
+                            </div>
+                        @else
+                            <div class="mt-4">
+                                <a href="{{ route('form.create', $o->id) }}"
+                                   class="block w-full text-center bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+                                    📌 Pinjam Barang
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @empty

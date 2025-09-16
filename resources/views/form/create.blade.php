@@ -18,9 +18,15 @@
                     <!-- Nama Barang -->
                     <div>
                         <label for="Nama_barang" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama Barang</label>
-                        <input type="text" name="Nama_barang" id="Nama_barang"
-                            value="{{ old('Nama_barang') }}"
+                        <select name="Nama_barang" id="Nama_barang"
                             class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="">-- Pilih Barang --</option>
+                            @foreach($olga as $barang)
+                                <option value="{{ $barang->Nama_barang }}" {{ old('Nama_barang') == $barang->Nama_barang ? 'selected' : '' }}>
+                                    {{ $barang->Nama_barang }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div>
                         <label for="Nama_peminjam" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama Peminjam</label>
